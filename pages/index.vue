@@ -10,9 +10,9 @@
         <input id="contact-name" v-model="contactName" type="text" name="contact-name" class="db pa2 w-40-l w-80-m w-100 mt2 br2 ba b--black-50">
 
         <label for="contact-number" class="db tl mt4">Contact number</label>
-        <input id="contact-number" v-model="contactNumber" type="text" number="contact-number" class="db pa2 w-40-l w-80-m w-100 mt2 br2 ba b--black-50">
+        <input id="contact-number" v-model="contactNumber" type="number" number="contact-number" class="db pa2 w-40-l w-80-m w-100 mt2 br2 ba b--black-50">
 
-        <button class="f6 link dim br2 ph3 pv2 db white bg-dark-green ba b--green pointer tl mv3" type="submit">Generate Banner</button>
+        <button class="f6 link dim br2 ph3 pv2 db white bg-dark-green ba b--green pointer tl mv3" type="submit">Generate Barcode</button>
       </form>
 
       <section class="w-50-ns w-100 tl pa3">
@@ -21,7 +21,7 @@
             <li v-for="(error,index) in errors" :key="index">{{error}}</li>
           </ul>
         </section>
-        <VueBarcode ref="barcode" :value="300000" tag="img" name="barcode.png" format="CODE128" class="dn"></VueBarcode>
+        <VueBarcode ref="barcode" :value="contactName + ' ' + contactNumber" tag="img" name="barcode.png" class="dn"></VueBarcode>
         <section v-if="results && results.secure_url">
           <img :src="results.secure_url" :alt="results.public_id" class="mv3" />
           <input disabled type="text" class="db w-90 pv3 ph2 br2 ba b--black-40 f7" :value="results.url" />
@@ -41,13 +41,13 @@ export default {
   },
   data(){
     return {
-      contactName: ' ',
-      contactNumber: ' ',
+      contactName: '',
+      contactNumber: 0,
       results: null,
       errors: [],
       file: null,
       cloudName: "***",
-      preset: "***",
+      preset: "lan9vkdw",
       tags: "browser-upload",
       fileContents: null,
       formData: null,
@@ -100,7 +100,15 @@ export default {
 </script>
 
 <style>
-.vis {
-  visibility: hidden;
+/* chrome: removes the number type inner anchor  */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox: removes the number type inner anchor */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 </style>
